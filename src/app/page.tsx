@@ -52,7 +52,7 @@ export default function Page() {
   );
 }
 
-export function PageContent(): JSX.Element {
+function PageContent(): JSX.Element {
   const { currentPage } = usePage();
 
   switch (currentPage) {
