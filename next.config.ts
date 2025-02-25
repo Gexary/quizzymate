@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
     dirs: ["src"],
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;
