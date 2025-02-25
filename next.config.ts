@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  basePath: "/quiz-app-frontend",
 };
 
 export default nextConfig;
