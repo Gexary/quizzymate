@@ -2,7 +2,7 @@
   "name": "quiz-app-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://gexary.github.io/quizzy-mate-app-frontend/",
+  "homepage": "https://gexary.github.io/quizzymate/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
