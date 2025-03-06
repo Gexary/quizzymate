@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  basePath: "/quizzymate/",
+  basePath: "/quizzymate",
 };
 
 export default nextConfig;
