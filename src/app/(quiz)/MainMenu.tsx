@@ -29,7 +29,7 @@ type joinRoomForm = z.infer<ReturnType<typeof joinRoomSchema>>;
 
 export function MainMenu() {
   const { setPage } = usePage();
-  const { connect, onMessage, removeMessageEvent, onCloseEvent } = useWebsocket();
+  const { connect, onMessage, onCloseEvent, removeMessageEvent } = useWebsocket();
   const { displayError } = useToast();
 
   const [loading, setLoading] = useState(false);
@@ -65,15 +65,16 @@ export function MainMenu() {
     const joinListener = (data: any) => {
       setLoading(false);
     };
-    onMessage("kick", kickListener);
-    onMessage("room_info", joinListener);
-    onCloseEvent(() => {
+    const closeListener = () => {
       setLoading(false);
       displayError("Connection closed, please try again");
-    });
+    };
+    onMessage("kick", kickListener);
+    onMessage("room_info", joinListener);
+    onCloseEvent(closeListener);
     return () => {
-      removeMessageEvent("room_info", joinListener);
       removeMessageEvent("kick", kickListener);
+      removeMessageEvent("_close", closeListener);
     };
   }, []);
 

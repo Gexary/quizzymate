@@ -34,7 +34,7 @@ type CreateQuizFormValues = z.infer<ReturnType<typeof createQuizSchema>>;
 const languages = ["en-US", "es-ES", "fr-FR", "zh-CN", "ar-AR"];
 
 export function CreateQuiz() {
-  const { connect, onMessage, removeMessageEvent, onCloseEvent } = useWebsocket();
+  const { connect, onMessage, removeEvents, onCloseEvent, removeMessageEvent } = useWebsocket();
   const { setPage } = usePage();
   const { displayError } = useToast();
 
@@ -65,22 +65,25 @@ export function CreateQuiz() {
   });
 
   useEffect(() => {
+    const kickListener = (data: any) => {
+      displayError(data.reason);
+      setDisabled(false);
+    };
+    const closeListener = () => {
+      displayError("Connection closed, please try again");
+      setDisabled(false);
+    };
     setFocus("subject");
-    const joinListener = (data: any) => {
+    const joinListener = () => {
       setAdmin(true);
       setDisabled(false);
     };
     onMessage("room_info", joinListener);
-    onCloseEvent(() => {
-      displayError("Connection closed, please try again");
-      setDisabled(false);
-    });
-    onMessage("kick", (data) => {
-      displayError(data.reason);
-      setDisabled(false);
-    });
+    onCloseEvent(closeListener);
+    onMessage("kick", kickListener);
     return () => {
-      removeMessageEvent("room_info", joinListener);
+      removeMessageEvent("kick", kickListener);
+      removeMessageEvent("_close", closeListener);
     };
   }, []);
 

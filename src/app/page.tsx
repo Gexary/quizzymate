@@ -1,6 +1,7 @@
 "use client";
 
 import { Background } from "@/components/ui/background";
+import { Card } from "@/components/ui/card";
 import { useUsername } from "@/hooks/useConfig";
 import { JSX } from "react";
 import { Bounce, ToastContainer } from "react-toastify";
@@ -12,6 +13,7 @@ import { CreateQuiz } from "./(creation)/CreateQuiz";
 import Question from "./(question)/Question";
 import QuestionResultDisplay from "./(question)/QuestionResult";
 import { Countdown } from "./(question)/StartingCount";
+import FinalLeaderboard from "./(quiz)/FinalLeaderboard";
 import { MainMenu } from "./(quiz)/MainMenu";
 import WaitingRoom from "./(quiz)/WaitingRoom";
 import UsernameEdit from "./(username)/UsernameEdit";
@@ -95,16 +97,20 @@ function PageContent(): JSX.Element {
       );
     case "question_result":
       return <QuestionResultDisplay />;
+    case "final_leaderboard":
+      return <FinalLeaderboard />;
     default:
       return (
         <Background>
-          <div>Page not found</div>
+          <Card className="p-8">
+            <h1 className="text-center text-2xl font-bold text-foreground mb-4">Page not found</h1>
+            <p className="text-center text-sm text-muted-foreground">
+              The page you are looking for does not exist or will be available soon.
+            </p>
+          </Card>
         </Background>
       );
   }
 }
 
-function QuizContent() {}
-{
-  /* <Image src="/quizzy_mate_logo.png" alt="logo" width={200} height={200} /> */
-}
+// TODO: add quiz favicon and Logo everywhere

@@ -26,6 +26,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${geistSans.className}`}>
+        <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMCVY967F0"></script>
+        <script>
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-DMCVY967F0');
+          `}
+        </script>
         <ConfigProvider>{children}</ConfigProvider>
       </body>
     </html>

@@ -1,17 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { usePage } from "@/contexts/page.context";
 import { cn, formatCorrectCount, formatPosition } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QuestionResultInterface, useQuestion, useQuestionResult } from "../../contexts/question.context";
 import { useQuiz } from "../../contexts/quiz.context";
 import { useWebsocket } from "../../contexts/websocket.context";
 
 export default function QuestionResult() {
   const { correct } = useQuestionResult();
-
+  const { setPage } = usePage();
+  const { onMessage, removeMessageEvent } = useWebsocket();
+  useEffect(() => {
+    const kickListener = (data: any) => {
+      setPage("final_leaderboard");
+    };
+    onMessage("kick", kickListener);
+    return () => {
+      removeMessageEvent("kick", kickListener);
+    };
+  }, []);
   return (
     <div
       className={cn("bg-gradient-to-t h-screen w-full flex flex-col items-center justify-center", {

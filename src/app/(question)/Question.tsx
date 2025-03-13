@@ -1,9 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { useProgress } from "@/hooks/useProgress";
+import { useToast } from "@/hooks/useToast";
 import { plural } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { usePage } from "../../contexts/page.context";
 import { useQuestion } from "../../contexts/question.context";
 import { useQuiz } from "../../contexts/quiz.context";
@@ -12,39 +12,55 @@ import MultipleChoice, { FreeText, ProgressBar, SingleChoice, TrueOrFalse } from
 
 export default function Question() {
   const { id, timeLimit, answerCount, setResult, question, setChoices, choices, setAnswerCount } = useQuestion();
-  const { onMessage, onCloseEvent } = useWebsocket();
+  const { onMessage, onCloseEvent, removeMessageEvent } = useWebsocket();
   const { setPage } = usePage();
   const { questionCount } = useQuiz().settings;
   const [choicesState, setChoicesState] = useState(choices);
   const [isWaiting, setIsWaiting] = useState(false);
   const { percentage, remainingTime, startProgress } = useProgress(timeLimit);
+  const { displayError } = useToast();
 
   useEffect(() => {
     setChoices(undefined);
-    onMessage("kick", (data) => {
+    const kickListener = (data: any) => {
       setPage("main_menu");
-      toast.error(`You have been kicked from the quiz${", reason: " + data.reason} !`);
-    });
-    onMessage("answer_count", (data) => {
+      displayError(`You have been kicked from the quiz${", reason: " + data.reason} !`);
+    };
+    const answerCountListener = (data: any) => {
       setAnswerCount(data.answerCount);
-    });
-    onCloseEvent(() => {
-      setPage("main_menu");
-      toast.error(`You have been disconnected from the quiz !`);
-    });
-    onMessage("question_end", (data) => {
+    };
+    const questionEndListener = (data: any) => {
       setResult(data);
       setChoicesState(null);
       setPage("question_result");
-    });
-    onMessage("question_choices", (data) => {
+    };
+    const questionChoicesListener = (data: any) => {
       setChoices(data);
       startProgress();
       setChoicesState(data);
-    });
-    onMessage("wait_answer", (data) => {
+    };
+    const waitAnswerListener = (data: any) => {
       setIsWaiting(true);
-    });
+    };
+    onMessage("kick", kickListener);
+    onMessage("answer_count", answerCountListener);
+    onMessage("question_end", questionEndListener);
+    onMessage("question_choices", questionChoicesListener);
+    onMessage("wait_answer", waitAnswerListener);
+
+    const closeListener = () => {
+      setPage("main_menu");
+      displayError(`You have been disconnected from the quiz !`);
+    };
+    onCloseEvent(closeListener);
+    return () => {
+      removeMessageEvent("kick", kickListener);
+      removeMessageEvent("answer_count", answerCountListener);
+      removeMessageEvent("question_end", questionEndListener);
+      removeMessageEvent("question_choices", questionChoicesListener);
+      removeMessageEvent("wait_answer", waitAnswerListener);
+      removeMessageEvent("_close", closeListener);
+    };
   }, []);
 
   useEffect(() => {
