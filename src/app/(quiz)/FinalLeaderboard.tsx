@@ -59,7 +59,7 @@ export default function FinalLeaderboard() {
     <Background color="yellow">
       <Card className="p-8 w-[30rem]">
         <div className="flex flex-row gap-4 items-center mb-8">
-          <Image src="/top.png" width={100} height={100} alt="Quiz App Logo" className="h-14 w-auto" />
+          <Image src="./top.png" width={100} height={100} alt="Quiz App Logo" className="h-14 w-auto" />
           <div>
             <h1 className="text-2xl font-bold">Final Leaderboard</h1>
             <p className="text-sm text-gray-500">The final leaderboard will be displayed here.</p>
