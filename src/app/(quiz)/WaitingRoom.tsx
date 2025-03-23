@@ -90,13 +90,13 @@ function QuizJoinMethod() {
           <span className="text-blue-600 underline">quiz.com</span>.
         </p>
       </div>
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 h-28">
         <div>
           <label className="block text-base font-medium text-gray-800 mb-2">Code du quiz:</label>
           <div className="text-5xl font-bold text-blue-600 tracking-wider cursor-pointer">{roomId}</div>
         </div>
         <Separator orientation="vertical" />
-        <div className="w-full h-28">
+        <div className="w-auto h-full">
           <QRCode
             size={256}
             style={{ height: "100%", maxHeight: "100%", width: "auto" }}

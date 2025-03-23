@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import "./background.css";
 
 type BackgroundColor = "red" | "blue" | "green" | "purple" | "yellow";
 
@@ -12,10 +13,8 @@ const colors: Record<BackgroundColor, string> = {
 
 export function Background({ children, color = "blue" }: { children: React.ReactNode; color?: BackgroundColor }) {
   return (
-    <div
-      className={cn("bg-gradient-to-t h-screen w-full flex flex-col items-center justify-center overflow-y-auto", colors[color])}
-    >
-      {children}
+    <div className={cn("bg-gradient-to-t h-screen w-full", colors[color])}>
+      <div className="bg-pattern w-full h-full flex flex-col items-center justify-center overflow-y-auto">{children}</div>
     </div>
   );
 }
