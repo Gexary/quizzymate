@@ -15,6 +15,7 @@ export interface Quiz {
     questionCount: number;
     language: string;
   };
+  emoji: string;
 }
 
 interface QuizContext extends Quiz {
@@ -34,14 +35,15 @@ const initialState: QuizContext = {
   roomId: "",
   title: "",
   description: "",
+  emoji: "",
   admin: "",
   users: [],
   userCount: 0,
-  isAdmin: false,
+  isAdmin: true,
   settings: {
-    level: "",
-    questionCount: 0,
-    language: "",
+    level: "easy",
+    questionCount: 10,
+    language: "fr-FR",
   },
   setAdmin: () => {},
   setQuiz: () => {},

@@ -12,6 +12,7 @@ import QRCode from "react-qr-code";
 import { Level } from "../(creation)/CreationForm";
 import { useQuiz } from "../../contexts/quiz.context";
 import { useWebsocket } from "../../contexts/websocket.context";
+import "./waiting-room.css";
 
 export default function WaitingRoom() {
   const { onMessage, removeEvents } = useWebsocket();
@@ -27,9 +28,9 @@ export default function WaitingRoom() {
   }, []);
 
   return (
-    <div className="parent py-16 px-32 w-full gap-4">
+    <div className="w-fit gap-4 room-container">
       <QuizInfo />
-      <div className="flex flex-col items-center justify-center w-full h-full">
+      <div className="flex flex-col items-center justify-center w-full h-full r-logo">
         <Image src="./quizzy_mate_logo.png" alt="logo" width={240} height={240} />
       </div>
       <QuizPlayers />
@@ -41,12 +42,16 @@ export default function WaitingRoom() {
 function QuizInfo() {
   const {
     title,
+    emoji,
     description,
     settings: { level, questionCount },
   } = useQuiz();
   return (
-    <Card className="flex flex-col w-full p-8">
-      <h1 className="text-3xl font-bold mb-4 text-zinc-800">{title}</h1>
+    <Card className="flex flex-col w-full p-8 r-room-info">
+      <div className="flex flex-row items-center gap-4 mb-4">
+        <span className="noto-color-emoji-regular text-3xl">{emoji}</span>
+        <h1 className="text-3xl font-bold text-zinc-800">{title}</h1>
+      </div>
       <p className="text-zinc-600 leading-relaxed">{description}</p>
       <div className="flex flex-row gap-2 mt-2 items-center">
         <Badge variant="outline" className="gap-1.5 w-fit">
@@ -64,7 +69,7 @@ function QuizInfo() {
 function QuizPlayers() {
   const { userCount } = useQuiz();
   return (
-    <Card className="w-full p-8">
+    <Card className="w-full p-8 r-players">
       <div className="flex items-center justify-center gap-4 mb-8 w-full">
         <Image src="./images/worldwide.png" alt="logo" width={64} height={64} className="w-12 h-12" />
         <span className="text-2xl font-semibold text-gray-700">{plural(userCount, "player")}</span>
@@ -82,13 +87,14 @@ function QuizJoinMethod() {
   };
   if (!isAdmin) return null;
   return (
-    <Card className="p-8 h-fit flex flex-col gap-8">
+    <Card className="p-8 h-fit flex flex-col gap-8 r-join-method">
       <div>
         <h2 className="text-xl font-bold mb-4 text-zinc-800">Comment rejoindre la partie ?</h2>
         <p className="text-zinc-600 leading-relaxed">
           Pour rejoindre la partie, scannez le code QR ci-dessous avec votre appareil mobile ou entrez le code de jeu sur{" "}
-          <span className="text-blue-600 underline">quiz.com</span>.
+          <span className="text-blue-600 underline">{window.location.host}</span>.
         </p>
+        {/* partager avec direct */}
       </div>
       <div className="flex flex-row gap-4 h-28">
         <div>

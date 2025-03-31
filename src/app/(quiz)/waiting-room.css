@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap");
+
+.room-container {
+  display: grid;
+  gap: 1rem;
+  grid-template-areas:
+    "room-info logo"
+    "players join-method";
+  grid-template-columns: 42rem 42rem;
+  grid-template-rows: auto 1fr;
+}
+
+@media (max-width: 1400px) {
+  .room-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "logo"
+      "room-info"
+      "join-method"
+      "players";
+  }
+}
+
+.r-room-info {
+  grid-area: room-info;
+}
+
+.r-players {
+  grid-area: players;
+}
+
+.r-join-method {
+  grid-area: join-method;
+}
+
+.r-logo {
+  grid-area: logo;
+}
+
+.noto-color-emoji-regular {
+  font-family: "Noto Color Emoji", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}

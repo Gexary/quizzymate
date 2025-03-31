@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -101,13 +97,6 @@ body {
   100% {
     width: 0;
   }
-}
-
-.parent {
-  display: grid;
-  grid-template-columns: 38rem 1fr;
-  grid-template-rows: auto 1fr;
-  gap: 1rem;
 }
 
 .checkbox-container {
