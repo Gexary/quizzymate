@@ -13,13 +13,15 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
+const CODE_LENGTH = 6
+
 const joinRoomSchema = (isPasswordRequired: boolean) =>
   z.object({
     roomId: z
       .string()
       .trim()
-      .length(8, "Invalid room id, please enter 8 digits code")
-      .regex(/^[1-9][0-9]{7}$/, "Invalid room id"),
+      .length(CODE_LENGTH, `Invalid room id, please enter ${CODE_LENGTH} digits code`)
+      .regex(/^[1-9][0-9]*$/, "Invalid room id"),
     password: isPasswordRequired
       ? z.string().min(1, "Please enter your room password").max(255, "Password is too long")
       : z.string().optional(),
@@ -91,10 +93,10 @@ export function MainMenu() {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <CompleteInput
           label="Room id"
-          placeholder="8 digits code for your room"
+          placeholder={`${CODE_LENGTH} digits code for your room`}
           error={errors.roomId?.message}
           disabled={loading}
-          maxLength={8}
+          maxLength={CODE_LENGTH}
           {...register("roomId")}
         />
         <ToggleLabel
