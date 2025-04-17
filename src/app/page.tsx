@@ -3,7 +3,7 @@
 import { Background } from "@/components/ui/background";
 import { Card } from "@/components/ui/card";
 import { useUsername } from "@/hooks/useConfig";
-import { JSX } from "react";
+import { JSX, useEffect } from "react";
 import { Bounce, ToastContainer } from "react-toastify";
 import { PageProvider, PageType, usePage } from "../contexts/page.context";
 import { QuestionProvider } from "../contexts/question.context";
@@ -23,6 +23,10 @@ const pages: PageType[] = [{ name: "menu_username" }, { name: "menu_join_room" }
 
 export default function Page() {
   const { username } = useUsername();
+
+  useEffect(() => {
+    document.body.style.zoom = `${(1 / window.devicePixelRatio).toFixed(2)}`;
+  }, []);
 
   return (
     <>
